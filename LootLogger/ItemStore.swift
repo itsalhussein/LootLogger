@@ -8,18 +8,30 @@
 import UIKit
 
 class ItemStore {
-    var allItems = [Item]()
+    var allItems = [[Item]]()
     
     
     @discardableResult func createItem() -> Item {
         let newItem = Item(random: true)
-        allItems.append(newItem)
+        var sectionNumber = 0
+        
+        if newItem.valueGT50 {
+            sectionNumber = 1
+        }
+        
+        allItems[sectionNumber].append(newItem)
         return newItem
     }
     
     func removeItem(_ item: Item){
-        if let index = allItems.firstIndex(of: item){
-            allItems.remove(at: index)
+        var sectionNumber = 0
+        
+        if item.valueGT50 {
+            sectionNumber = 1
+        }
+        
+        if let index = allItems[sectionNumber].firstIndex(of: item){
+            allItems[sectionNumber].remove(at: index)
         }
     }
     
@@ -28,8 +40,8 @@ class ItemStore {
             return
         }
         //Get reference to object being moved so you can reinsert it
-        let movedItem = allItems[fromIndex]
-        
+        let movedItem = allItems[fromIndex.section][fromIndex.row]
+
         //Remove item from array
         allItems.remove(at: fromIndex)
         

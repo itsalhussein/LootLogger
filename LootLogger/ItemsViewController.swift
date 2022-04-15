@@ -12,14 +12,26 @@ class ItemsViewController: UITableViewController{
     //MARK: - Properties
     
     var itemStore: ItemStore!
-    
-    
+    var sections: [String] = ["Greater than $50", "$50 or less"]
+
     //MARK: - Life Cycle
 
     
     
     
     //MARK: - Methods
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return sections[0]
+        } else {
+            return sections[1]
+        }
+    }
+   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemStore.allItems.count
     }
@@ -62,6 +74,9 @@ class ItemsViewController: UITableViewController{
 //        tableView.insertRows(at: [indexPath], with: .automatic)
         //Create a new item and add it to the store
         let newItem = itemStore.createItem()
+        
+        //get the section of the item
+        
         
         //Figure out where that item is in the array
         if let index = itemStore.allItems.firstIndex(of: newItem){
